@@ -9,7 +9,7 @@ def main():
     print("  search genre — поиск по жанру")
     print("  search year <год> — поиск по году")
     print("  popular — самые популярные запросы")
-    print("  exit — выход")
+    print("  exit, quit — выход")
 
     with DatabaseManager() as db:
         while True:
