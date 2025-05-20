@@ -1,15 +1,10 @@
 from db.db_manager import DatabaseManager
-from ui.console_interface import get_user_command, handle_command
+from ui.console_interface import get_user_command, handle_command, display_menu
 from utils.logger import log_error
 
 def main():
     print("Добро пожаловать в Movie Search App!")
-    print("Доступные команды:")
-    print("  search keyword <слово> — поиск по ключевому слову")
-    print("  search genre — поиск по жанру")
-    print("  search year <год> — поиск по году")
-    print("  popular — самые популярные запросы")
-    print("  exit, quit — выход")
+    display_menu()
 
     with DatabaseManager() as db:
         while True:

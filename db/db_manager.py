@@ -89,7 +89,7 @@ class DatabaseManager:
             # Проверка существующего запроса
             self.cursor.execute("""
                 SELECT id, search_count
-                FROM search_history
+                FROM search_logs
                 WHERE search_type = %s
                   AND search_text = %s
             """, (query_type, query_text))
@@ -97,7 +97,7 @@ class DatabaseManager:
             if row:
                 # Обновляем счётчик и дату
                 self.cursor.execute("""
-                    UPDATE search_history
+                    UPDATE search_logs
                     SET search_count = search_count + 1,
                         search_date  = NOW()
                     WHERE id = %s
@@ -105,7 +105,7 @@ class DatabaseManager:
             else:
                 # Вставляем новую запись
                 self.cursor.execute("""
-                    INSERT INTO search_history (
+                    INSERT INTO search_logs (
                     search_type, search_text, search_count, search_date)
                     VALUES (%s, %s, 1, NOW())
                     """, (query_type, query_text))
@@ -116,7 +116,7 @@ class DatabaseManager:
     def get_popular_queries(self):
         self.cursor.execute("""
             SELECT search_text, search_type, search_count
-            FROM search_history
+            FROM search_logs
             ORDER BY search_count DESC LIMIT 10
                             """)
         return self.cursor.fetchall()

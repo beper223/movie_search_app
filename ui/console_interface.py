@@ -4,7 +4,15 @@ from utils.display import display_movies, display_category, display_popular_quer
 from utils.logger import log_error
 
 def get_user_command():
-    return input("Введите команду: ")
+    return input("Введите команду (menu - для отображения меню): ")
+
+def display_menu():
+    print("Доступные команды:")
+    print("  search keyword <слово> — поиск по ключевому слову")
+    print("  search genre — поиск по жанру")
+    print("  search year <год> — поиск по году")
+    print("  popular — самые популярные запросы")
+    print("  exit, quit — выход")
 
 def handle_command(command, db):
     parts = command.strip().split()
@@ -38,5 +46,7 @@ def handle_command(command, db):
     elif parts[0] == "popular":
         queries = db.get_popular_queries()
         display_popular_queries(queries)
+    elif parts[0] == "menu":
+        display_menu()
     else:
         print("Неизвестная команда.")
