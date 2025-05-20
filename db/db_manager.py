@@ -1,6 +1,7 @@
 import mysql.connector
 from utils.logger import log_error
 from db.local_settings import dbconfig
+from utils.decorators import with_categories
 
 class DatabaseManager:
     def __init__(self):
@@ -31,20 +32,24 @@ class DatabaseManager:
             log_error((exc_type, exc_val, exc_tb))
             #return False
 
+    @with_categories
     def search_by_keyword(self, keyword):
         self.save_search_query(keyword, "keyword")
         query = """
-            SELECT film.title,
-                   film.description,
-                   film.release_year as year,
-                    film.rating,
-                    film.length
+            SELECT 
+                film.film_id,
+                film.title,
+                film.description,
+                film.release_year as year,
+                film.rating,
+                film.length
             FROM film
             WHERE film.title LIKE %s
             LIMIT 20"""
         self.cursor.execute(query, (f"%{keyword}%",))
         return self.cursor.fetchall()
 
+    @with_categories
     def search_by_genre(self, category_id):
         query = "SELECT name FROM category WHERE category_id = %s"
         self.cursor.execute(query, (category_id,))
@@ -52,7 +57,9 @@ class DatabaseManager:
         if category:
             self.save_search_query(category['name'],"genre")
             query = """
-                SELECT film.title,
+                SELECT
+                   film.film_id,
+                   film.title,
                    film.description,
                    film.release_year as year,
                    film.rating,
@@ -66,14 +73,17 @@ class DatabaseManager:
             return self.cursor.fetchall()
         return []
 
+    @with_categories
     def search_by_year(self, year):
         self.save_search_query(str(year),"year")
         query = """
-            SELECT film.title,
-                   film.description,
-                   film.release_year as year,
-                        film.rating,
-                        film.length
+            SELECT
+                film.film_id,
+                film.title,
+                film.description,
+                film.release_year as year,
+                film.rating,
+                film.length
             FROM film
             WHERE release_year = %s
                 LIMIT 20"""

@@ -5,6 +5,7 @@ def display_movies(movies):
     print("Найденные фильмы:")
     for i, movie in enumerate(movies, 1):
         print(f"{i}. {movie['title']} ({movie['year']})")
+        print(f"   Жанры: {', '.join(movie.get('categories', []))}")
         print(f"   Рейтинг: {movie.get('rating', 'N/A')}, Длительность: {movie.get('length', 'N/A')} мин.")
         print(f"   Описание: {movie['description']}")
 
