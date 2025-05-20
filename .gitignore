@@ -4,4 +4,5 @@ __pycache__/
 /MySQL/conn.txt
 /MySQL/priority.txt
 /MySQL/модель.mwb
-db/local_settings.py
+/db/local_settings.py
+/logs/errors.log

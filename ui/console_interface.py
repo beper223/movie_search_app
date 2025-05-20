@@ -19,14 +19,20 @@ def handle_command(command, db):
             user_input = input(f"Введите номер жанра (целое число от 1 до {len(category)}): ")
             try:
                 category_id = int(user_input)
-                results = db.search_by_genre(category[category_id-1]["category_id"])
+                if 1 <= category_id <= len(category):
+                    results = db.search_by_genre(category[category_id-1]["category_id"])
+                    display_movies(results)
+                else:
+                    print("Номер жанра вне диапазона.")
+            except ValueError:
+                print("Ошибка при вводе номера жанра.")
+        elif parts[1] == "year" and len(parts) == 3:
+            try:
+                year = int(parts[2])
+                results = db.search_by_year(year)
                 display_movies(results)
             except ValueError:
-                print("Ошибка: введите целое число.")
-        elif parts[1] == "year" and len(parts) == 3:
-            year = int(parts[2])
-            results = db.search_by_year(year)
-            display_movies(results)
+                print("Ошибка: введите корректный год.")
         else:
             print("Неверная команда поиска.")
     elif parts[0] == "popular":
