@@ -3,6 +3,18 @@ from utils.logger import log_error
 from db.local_settings import dbconfig
 from utils.decorators import with_categories_and_actors as with_categories
 
+
+def get_query_fields():
+    return """
+           SELECT film.film_id,
+                film.title,
+                film.description,
+                film.release_year as year,
+                film.rating,
+                film.length
+           FROM film"""
+
+
 class DatabaseManager:
     def __init__(self):
         self.dbconfig = dbconfig
@@ -35,19 +47,12 @@ class DatabaseManager:
     @with_categories
     def search_by_keyword(self, keyword):
         self.save_search_query(keyword, "keyword")
-        query = """
-            SELECT 
-                film.film_id,
-                film.title,
-                film.description,
-                film.release_year as year,
-                film.rating,
-                film.length
-            FROM film
-            WHERE film.title LIKE %s
-            LIMIT 20"""
+        query = get_query_fields() + """
+               WHERE film.title LIKE %s"""
         self.cursor.execute(query, (f"%{keyword}%",))
         return self.cursor.fetchall()
+
+
 
     @with_categories
     def search_by_genre(self, category_id):
@@ -56,19 +61,10 @@ class DatabaseManager:
         category = self.cursor.fetchone()
         if category:
             self.save_search_query(category['name'],"genre")
-            query = """
-                SELECT
-                   film.film_id,
-                   film.title,
-                   film.description,
-                   film.release_year as year,
-                   film.rating,
-                   film.length
-                FROM film
-                    JOIN film_category
+            query = get_query_fields() + """
+                JOIN film_category
                 ON film.film_id = film_category.film_id
-                WHERE film_category.category_id = %s
-                LIMIT 20"""
+                WHERE film_category.category_id = %s"""
             self.cursor.execute(query, (category_id,))
             return self.cursor.fetchall()
         return []
@@ -77,16 +73,7 @@ class DatabaseManager:
     def search_by_year(self, year):
         self.save_search_query(str(year),"year")
         query = """
-            SELECT
-                film.film_id,
-                film.title,
-                film.description,
-                film.release_year as year,
-                film.rating,
-                film.length
-            FROM film
-            WHERE release_year = %s
-                LIMIT 20"""
+            WHERE release_year = %s"""
         self.cursor.execute(query, (year,))
         return self.cursor.fetchall()
 
