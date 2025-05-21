@@ -1,4 +1,9 @@
 1. установить пакеты из requirements.txt
+
+```
+pip install -r requirements.txt
+```
+
 2. создать файл db/local_settings.py.
 Содержимое файла:
 
@@ -10,5 +15,10 @@ dbconfig = {'host': 'host_name',
             'database': 'database_name'}
 ```
 
-3. программа запускается из файла main.py, функция main()
+3. Запуск
+
+```
+python main.py
+```
+
 4. 
