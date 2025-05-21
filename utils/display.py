@@ -8,6 +8,7 @@ def display_movies(movies):
         print(f"   Жанры: {', '.join(movie.get('categories', []))}")
         print(f"   Рейтинг: {movie.get('rating', 'N/A')}, Длительность: {movie.get('length', 'N/A')} мин.")
         print(f"   Описание: {movie['description']}")
+        print(f"   Актёры: {', '.join(movie.get('actors', []))}")
 
 def display_category(categorys):
     print("Доступные жанры:")

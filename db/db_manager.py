@@ -1,7 +1,7 @@
 import mysql.connector
 from utils.logger import log_error
 from db.local_settings import dbconfig
-from utils.decorators import with_categories
+from utils.decorators import with_categories_and_actors as with_categories
 
 class DatabaseManager:
     def __init__(self):
@@ -94,7 +94,7 @@ class DatabaseManager:
         self.cursor.execute("SELECT category_id, name FROM category")
         return self.cursor.fetchall()
 
-    def save_search_query(self, query_text,query_type="keyword"):
+    def save_search_query(self, query_text,query_type):
         try:
             # Проверка существующего запроса
             self.cursor.execute("""

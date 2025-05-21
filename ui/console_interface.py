@@ -4,7 +4,7 @@ from utils.display import display_movies, display_category, display_popular_quer
 from utils.logger import log_error
 
 def get_user_command():
-    return input("Введите команду (menu - для отображения меню): ")
+    return input("Введите команду (menu — меню, exit — выход): ")
 
 def display_menu():
     print("Доступные команды:")
