@@ -7,7 +7,7 @@ pip install -r requirements.txt
 2. создать файл db/local_settings.py.
 Содержимое файла:
 
-```
+```js
 dbconfig = {'host': 'host_name',
             'user': 'user_name',
             'port': '3306',
