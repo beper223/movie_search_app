@@ -16,6 +16,9 @@ def display_menu():
 
 def handle_command(command, db):
     parts = command.strip().split()
+    if not parts:
+        print("Пустая команда. Попробуйте снова.")
+        return
     if parts[0] == "search":
         if parts[1] == "keyword" and len(parts) > 2:
             keyword = " ".join(parts[2:])

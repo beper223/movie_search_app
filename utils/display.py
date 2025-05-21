@@ -3,12 +3,21 @@ def display_movies(movies):
         print("Фильмы не найдены.")
         return
     print("Найденные фильмы:")
-    for i, movie in enumerate(movies, 1):
-        print(f"{i}. {movie['title']} ({movie['year']})")
-        print(f"   Жанры: {', '.join(movie.get('categories', []))}")
-        print(f"   Рейтинг: {movie.get('rating', 'N/A')}, Длительность: {movie.get('length', 'N/A')} мин.")
-        print(f"   Описание: {movie['description']}")
-        print(f"   Актёры: {', '.join(movie.get('actors', []))}")
+    # Выводим по 10 фильмов на страницу
+    page_size = 10
+    for i in range(0, len(movies), page_size):
+        page = movies[i:i + page_size]
+        for j, movie in enumerate(page, i + 1):
+            print(f"{j}. {movie['title']} ({movie['year']})")
+            print(f"   Жанры: {', '.join(movie.get('categories', []))}")
+            print(f"   Рейтинг: {movie.get('rating', 'N/A')}, Длительность: {movie.get('length', 'N/A')} мин.")
+            print(f"   Описание: {movie['description']}")
+            print(f"   Актёры: {', '.join(movie.get('actors', []))}")
+
+        if i + page_size < len(movies):
+            cont = input("Нажмите Enter для следующей страницы или 'q' для выхода: ")
+            if cont.lower() == 'q':
+                break
 
 def display_category(categorys):
     print("Доступные жанры:")
