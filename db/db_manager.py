@@ -61,7 +61,7 @@ class DatabaseManager:
         category = self.cursor.fetchone()
         if category:
             self.save_search_query(category['name'],"genre")
-            query = get_query_fields() + """
+            query = get_query_fields() + """ film
                 JOIN film_category
                 ON film.film_id = film_category.film_id
                 WHERE film_category.category_id = %s"""
@@ -72,9 +72,21 @@ class DatabaseManager:
     @with_categories
     def search_by_year(self, year):
         self.save_search_query(str(year),"year")
-        query = """
+        query = get_query_fields() + """
             WHERE release_year = %s"""
         self.cursor.execute(query, (year,))
+        return self.cursor.fetchall()
+
+    @with_categories
+    def search_by_actor(self, actor_name):
+        self.save_search_query(actor_name, "actor")
+        query = get_query_fields() + """ film
+                    JOIN film_actor fa
+                ON film.film_id = fa.film_id
+                    JOIN actor a ON fa.actor_id = a.actor_id
+                WHERE CONCAT(a.first_name, ' ', a.last_name) LIKE %s
+                """
+        self.cursor.execute(query, (f"%{actor_name}%",))
         return self.cursor.fetchall()
 
     def get_category(self):

@@ -11,8 +11,9 @@ def get_user_command():
 
 def display_menu():
     print("Доступные команды:")
-    print("  search keyword <слово> — поиск по ключевому слову")
+    print("  search keyword <слово> — поиск по ключевому слову в названии фильма")
     print("  search genre — поиск по жанру")
+    print("  search actor — поиск по актрёру")
     print("  search year <год> — поиск по году")
     print("  popular — самые популярные запросы")
     print("  exit, quit — выход")
@@ -49,6 +50,10 @@ def handle_command(command, db):
                 display_movies(results)
             except ValueError:
                 console.print("[red]Ошибка: введите корректный год.[/red]")
+        elif parts[1] == "actor" and len(parts) > 2:
+            actor_name = " ".join(parts[2:])
+            results = db.search_by_actor(actor_name)
+            display_movies(results)
         else:
             console.print("[red]Неверная команда поиска.[/red]")
     elif parts[0] == "popular":
