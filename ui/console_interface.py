@@ -1,12 +1,12 @@
 from sys import exec_prefix
 
-from utils.display import display_movies, display_category, display_popular_queries
+from utils.display import display_movies, display_category, display_popular_queries, display_actors
 from rich.console import Console
 
 console = Console()
 
 def get_user_command():
-    return input("\033[1;34mВведите команду (menu — меню, exit — выход):\033[0m ")
+    return input("\033[1;34mВведите команду (m — меню, q — выход):\033[0m ")
 
 
 def display_menu():
@@ -16,7 +16,7 @@ def display_menu():
     print("  search actor — поиск по актрёру")
     print("  search year <год> — поиск по году")
     print("  popular — самые популярные запросы")
-    print("  exit, quit — выход")
+    print("  q — выход")
 
 def handle_command(command, db):
     parts = command.strip().split()
@@ -52,14 +52,20 @@ def handle_command(command, db):
                 console.print("[red]Ошибка: введите корректный год.[/red]")
         elif parts[1] == "actor" and len(parts) > 2:
             actor_name = " ".join(parts[2:])
-            results = db.search_by_actor(actor_name)
-            display_movies(results)
+            actors = db.get_actors(actor_name)
+            if not actors:
+                console.print(f"[bold red]Актёры '{actor_name}' не найдены.[/bold red]")
+                return
+            actor = display_actors(actors)
+            if actor:
+                results = db.search_by_actor(actor)
+                display_movies(results)
         else:
             console.print("[red]Неверная команда поиска.[/red]")
     elif parts[0] == "popular":
         queries = db.get_popular_queries()
         display_popular_queries(queries)
-    elif parts[0] == "menu":
+    elif parts[0] == "m":
         display_menu()
     else:
         console.print("[red]Неизвестная команда.[/red]")

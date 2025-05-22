@@ -78,19 +78,30 @@ class DatabaseManager:
         return self.cursor.fetchall()
 
     @with_categories
-    def search_by_actor(self, actor_name):
-        self.save_search_query(actor_name, "actor")
+    def search_by_actor(self, actor):
+        self.save_search_query(actor[1], "actor")
         query = get_query_fields() + """ film
                     JOIN film_actor fa
                 ON film.film_id = fa.film_id
                     JOIN actor a ON fa.actor_id = a.actor_id
-                WHERE CONCAT(a.first_name, ' ', a.last_name) LIKE %s
+                WHERE a.actor_id = %s
                 """
-        self.cursor.execute(query, (f"%{actor_name}%",))
+        self.cursor.execute(query, (actor[0],))
         return self.cursor.fetchall()
 
     def get_category(self):
         self.cursor.execute("SELECT category_id, name FROM category")
+        return self.cursor.fetchall()
+
+    def get_actors(self, name_part):
+        query = """
+                SELECT actor_id, first_name, last_name
+                FROM actor 
+                WHERE CONCAT(first_name,' ',last_name) LIKE %s
+                ORDER BY first_name, last_name
+                """
+        like_pattern = f"%{name_part}%"
+        self.cursor.execute(query, (like_pattern,))
         return self.cursor.fetchall()
 
     def save_search_query(self, query_text,query_type):

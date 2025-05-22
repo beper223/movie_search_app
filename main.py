@@ -13,7 +13,7 @@ def main():
         while True:
             try:
                 command = get_user_command()
-                if command.lower() in ("exit", "quit"):
+                if command.lower() == "q":
                     console.print("[yellow]Выход из приложения.[/yellow]")
                     break
                 handle_command(command, db)
