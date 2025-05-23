@@ -30,7 +30,7 @@ class DatabaseManager:
             return self
         except Exception as e:
             log_error(e)
-            raise
+            # raise
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         try:

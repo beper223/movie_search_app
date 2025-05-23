@@ -8,21 +8,47 @@ def display_movies(movies):
         console.print("[bold red]Фильмы не найдены.[/bold red]")
         return
     console.rule("[bold green]Найденные фильмы:[/bold green]")
-    # Выводим по 10 фильмов на страницу
-    page_size = 10
-    for i in range(0, len(movies), page_size):
-        page = movies[i:i + page_size]
-        for j, movie in enumerate(page, i + 1):
-            console.print(f"\n[bold cyan]{j}. {movie['title']} ({movie['year']})[/bold cyan]")
-            console.print(f"   [green]Жанры:[/green] {', '.join(movie.get('categories', []))}")
-            console.print(f"   Рейтинг: {movie.get('rating', 'N/A')}, Длительность: {movie.get('length', 'N/A')} мин.")
-            console.print(f"   [italic]Описание:[/italic] {movie['description']}")
-            console.print(f"   [magenta]Актёры:[/magenta] {', '.join(movie.get('actors', []))}")
 
-        if i + page_size < len(movies):
-            cont = input("Нажмите Enter для следующей страницы или 'q' для выхода: ")
-            if cont.lower() == 'q':
-                break
+    page_size = 10 # Выводим по 10 фильмов на страницу
+    total_movies = len(movies)
+    page = 0  # индекс страницы
+    total_pages = (total_movies + page_size - 1) // page_size
+    show_table = True
+
+    while True:
+        start = page * page_size
+        end = start + page_size
+
+        if show_table:
+            current_page = movies[start:end]
+            for i, movie in enumerate(current_page, start + 1):
+                console.print(f"\n[bold cyan]{i}. {movie['title']} ({movie['year']})[/bold cyan]")
+                console.print(f"   [green]Жанры:[/green] {', '.join(movie.get('categories', []))}")
+                console.print(f"   Рейтинг: {movie.get('rating', 'N/A')}, Длительность: {movie.get('length', 'N/A')} мин.")
+                console.print(f"   [italic]Описание:[/italic] {movie['description']}")
+                console.print(f"   [magenta]Актёры:[/magenta] {', '.join(movie.get('actors', []))}")
+            console.print(f"Страница {page + 1} из {total_pages}")
+
+        show_table = True
+        choice = input("'n' - next, 'p' - previous, q - exit: ").strip()
+
+        if choice.lower() == 'q':
+            break
+        elif choice.lower() == 'n':
+            if page < total_pages - 1:
+                page += 1
+            else:
+                console.print("[yellow]Это последняя страница.[/yellow]")
+                show_table = False
+        elif choice.lower() == 'p':
+            if page > 0:
+                page -= 1
+            else:
+                console.print("[yellow]Это первая страница.[/yellow]")
+                show_table = False
+        else:
+            console.print("[red]Некорректный ввод. Попробуйте снова.[/red]")
+            show_table = False
 
 def display_category(categories):
     table = Table(title="Доступные жанры")
@@ -49,53 +75,50 @@ def display_popular_queries(queries):
 def display_actors(actors: list):
     page_size = 10  # количество записей на странице
     total_actors = len(actors)
-    idx_offset = 0  # индекс страницы
-    refresh = True
+    page  = 0  # индекс страницы
+    total_pages = (total_actors + page_size - 1) // page_size
+    show_table = True
     while True:
-        if not refresh:
-            refresh = True
-        else:
-            page = actors[idx_offset:idx_offset + page_size]
+        start = page * page_size
+        end = start + page_size
 
+        if show_table:
+            current_page = actors[start:end]
             table = Table(show_header=True, header_style="bold magenta")
             table.add_column("№", style="dim", width=4)
             table.add_column("Имя", style="cyan")
             table.add_column("Фамилия", style="cyan")
 
-            for idx, actor in enumerate(page, idx_offset + 1):
-                table.add_row(str(idx), actor["first_name"], actor["last_name"])
+            for i, actor in enumerate(current_page, start + 1):
+                table.add_row(str(i), actor["first_name"], actor["last_name"])
             console.print(table)
+            console.print(f"Страница {page + 1} из {total_pages}")
 
-            console.print(
-                f"Страница {idx_offset // page_size + 1} из {(total_actors + page_size - 1) // page_size}")
-
+        show_table = True
         choice = input(
-            "Введите номер актёра для выбора, 'n' - следующая, 'p' - предыдущая, Enter для выхода: ").strip()
+            "Введите № актёра для выбора, 'n' - next, 'p' - previous, Enter - exit: ").strip()
 
         if choice == "":
             return []
         elif choice.lower() == 'n':
-            if idx_offset + page_size < total_actors:
-                idx_offset += page_size
+            if page < total_pages - 1:
+                page += 1
             else:
                 console.print("[yellow]Это последняя страница.[/yellow]")
-                refresh = False
+                show_table = False
         elif choice.lower() == 'p':
-            if idx_offset - page_size >= 0:
-                idx_offset -= page_size
+            if page > 0:
+                page -= 1
             else:
                 console.print("[yellow]Это первая страница.[/yellow]")
-                refresh = False
+                show_table = False
         else:
-            try:
+            if choice.isdigit():
                 num = int(choice)
                 if 1 <= num <= total_actors:
                     actor = actors[num - 1]
-                    return [actor["actor_id"], f"{actor["first_name"]} {actor["last_name"]}"]
-                else:
-                    console.print("[red]Неверный номер. Попробуйте снова.[/red]")
-                    refresh = False
-            except ValueError:
-                console.print("[red]Некорректный ввод. Попробуйте снова.[/red]")
-                refresh = False
+                    full_name = f"{actor['first_name']} {actor['last_name']}"
+                    return [actor["actor_id"], full_name]
+            console.print("[red]Некорректный ввод. Попробуйте снова.[/red]")
+            show_table = False
 
