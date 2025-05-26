@@ -1,5 +1,3 @@
-from sys import exec_prefix
-
 from utils.display import display_movies, display_category, display_popular_queries, display_actors
 from rich.console import Console
 
@@ -15,7 +13,7 @@ def display_menu():
     print("  search genre — поиск по жанру")
     print("  search actor — поиск по актрёру")
     print("  search year <год> — поиск по году")
-    print("  popular — самые популярные запросы")
+    print("  p — самые популярные запросы")
     print("  q — выход")
 
 def handle_command(command, db):
@@ -31,17 +29,15 @@ def handle_command(command, db):
         elif parts[1] == "genre":
             category = db.get_category()
             display_category(category)
-            # \033[1;34mВведите номер жанра:\033[0m
-            # user_input = input(f"Введите номер жанра (целое число от 1 до {len(category)}): ")
             user_input = input(f"\033[1;34mВведите номер жанра (целое число от 1 до {len(category)}): \033[0m")
-            try:
+            if user_input.isdigit():
                 category_id = int(user_input)
                 if 1 <= category_id <= len(category):
                     results = db.search_by_genre(category[category_id-1]["category_id"])
                     display_movies(results)
                 else:
                     console.print("[red]Номер жанра вне диапазона.[/red]")
-            except ValueError:
+            else:
                 console.print("[red]Ошибка при вводе номера жанра.[/red]")
         elif parts[1] == "year" and len(parts) == 3:
             try:
@@ -62,7 +58,7 @@ def handle_command(command, db):
                 display_movies(results)
         else:
             console.print("[red]Неверная команда поиска.[/red]")
-    elif parts[0] == "popular":
+    elif parts[0] == "p":
         queries = db.get_popular_queries()
         display_popular_queries(queries)
     elif parts[0] == "m":
