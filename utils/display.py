@@ -30,7 +30,7 @@ def display_movies(movies):
             console.print(f"Страница {page + 1} из {total_pages}")
 
         show_table = True
-        choice = input("\033[1;34m'n' - next, 'p' - previous, q - exit:\033[0m ").strip()
+        choice = console.input("[bold blue]'n' - next, 'p' - previous, q - exit:[/bold blue] ").strip()
 
         if choice.lower() == 'q':
             break
@@ -95,8 +95,8 @@ def display_actors(actors: list):
             console.print(f"Страница {page + 1} из {total_pages}")
 
         show_table = True
-        choice = input(
-            "\033[1;34mВведите № актёра для выбора, 'n' - next, 'p' - previous, q - exit:\033[1;34m ").strip()
+        choice = console.input(
+            "[bold blue]Введите № актёра для выбора, 'n' - next, 'p' - previous, q - exit:[/bold blue] ").strip()
 
         if choice == "q":
             return []

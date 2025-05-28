@@ -4,7 +4,7 @@ from rich.console import Console
 console = Console()
 
 def get_user_command():
-    return input("\033[1;34mВведите команду (m — меню, q — выход):\033[0m ")
+    return console.input("[bold blue]Введите команду (m — меню, q — выход):[/bold blue] ")
 
 
 def display_menu():
@@ -29,7 +29,7 @@ def handle_command(command, db):
         elif parts[1] == "genre":
             category = db.get_category()
             display_category(category)
-            user_input = input(f"\033[1;34mВведите номер жанра (целое число от 1 до {len(category)}): \033[0m")
+            user_input = console.input(f"[bold blue]Введите номер жанра (целое число от 1 до {len(category)}): [/bold blue]")
             if user_input.isdigit():
                 category_id = int(user_input)
                 if 1 <= category_id <= len(category):

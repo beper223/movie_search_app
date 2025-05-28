@@ -21,6 +21,12 @@
 ```
 python main.py
 ```
+Возможно, перед запуском программы неоходимо будет активировать виртуальное окружение.
+
+```
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+.venv\Scripts\activate
+```
 
 После запуска программы в терминале появится приглашение к вводу команды:
 
