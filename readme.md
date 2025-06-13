@@ -1,147 +1,147 @@
+# 📘 Filmsuchsystem
 
-# 📘 Поисковая система фильмов
+## 🖥️ Allgemeine Beschreibung
 
-## 🖥️ Общее описание
+Dieses Programm ist eine Konsolenanwendung zur Filmsuche. Es bietet dem Benutzer die Möglichkeit, Filme zu suchen nach:
 
-Данная программа — это консольный интерфейс для поиска информации о фильмах. Она предоставляет пользователю возможность искать фильмы по:
+- Stichwörtern,
+- Genres,
+- Schauspielern,
+- Erscheinungsjahren
 
-- ключевым словам,
-- жанрам,
-- актёрам,
-- годам выпуска,
-
-а также просматривать **популярные поисковые запросы**.
+sowie die **beliebtesten Suchanfragen** einzusehen.
 
 ---
 
-## 🔧 Запуск программы
+## 🔧 Programmstart
 
-Программа запускается следующей командой:
+Das Programm wird mit folgendem Befehl gestartet:
 
 ```
 python main.py
 ```
-Возможно, перед запуском программы необходимо будет активировать виртуальное окружение.
+
+Möglicherweise muss vor dem Start das virtuelle Environment aktiviert werden:
 
 ```
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 .venv\Scripts\activate
 ```
 
-После запуска программы в терминале появится приглашение к вводу команды:
+Nach dem Start erscheint im Terminal die Eingabeaufforderung:
 
 ```
-Введите команду (m — меню, q — выход):
+Geben Sie einen Befehl ein (m — Menü, q — Beenden):
 ```
 
 ---
 
-## 📜 Доступные команды
+## 📜 Verfügbare Befehle
 
-Для просмотра всех доступных команд введите:
+Um alle verfügbaren Befehle anzuzeigen, geben Sie ein:
 
 ```
 m
 ```
 
-Вы увидите список:
+Dann erscheint eine Liste:
 
 ```
-Доступные команды:
-  search keyword <слово> — поиск по ключевому слову в названии фильма
-  search genre — поиск по жанру
-  search actor <имя актёра> — поиск по актёру
-  search year <год> — поиск по году
-  p — самые популярные запросы
-  q — выход
+Verfügbare Befehle:
+  search keyword <Wort> — Suche nach einem Stichwort im Filmtitel
+  search genre — Suche nach Genre
+  search actor <Name des Schauspielers> — Suche nach Schauspieler
+  search year <Jahr> — Suche nach Erscheinungsjahr
+  p — beliebteste Suchanfragen
+  q — Beenden
 ```
 
 ---
 
-## 🔍 Поиск фильмов
+## 🔍 Filmsuche
 
-### 🔑 Поиск по ключевому слову
+### 🔑 Suche nach Stichwort
 
 ```
-search keyword <слово>
+search keyword <Wort>
 ```
 
-**Пример:**
+**Beispiel:**
 ```
 search keyword matrix
 ```
 
-Выведет все фильмы, в названии которых встречается "matrix".
+Zeigt alle Filme an, in deren Titel „matrix“ vorkommt.
 
 ---
 
-### 🎭 Поиск по жанру
+### 🎭 Suche nach Genre
 
 ```
 search genre
 ```
 
-1. Отобразится список жанров.
-2. Введите **номер жанра** (например: `3`), чтобы отфильтровать фильмы по нему.
+1. Eine Liste der Genres wird angezeigt.
+2. Geben Sie die **Nummer des Genres** ein (z. B. `3`), um nach diesem zu filtern.
 
 ---
 
-### 🎬 Поиск по актёру
+### 🎬 Suche nach Schauspieler
 
 ```
-search actor <имя актёра>
+search actor <Name des Schauspielers>
 ```
 
-**Пример:**
+**Beispiel:**
 ```
 search actor Tom Hanks
 ```
 
-1. Отобразится список актёров, соответствующих запросу.
-2. Введите номер нужного актёра.
-3. Отобразятся фильмы с его участием.
+1. Eine Liste mit passenden Schauspielern wird angezeigt.
+2. Wählen Sie den gewünschten Schauspieler durch Eingabe der Nummer.
+3. Die Filme mit diesem Schauspieler werden angezeigt.
 
 ---
 
-### 📆 Поиск по году
+### 📆 Suche nach Jahr
 
 ```
-search year <год>
+search year <Jahr>
 ```
 
-**Пример:**
+**Beispiel:**
 ```
 search year 1999
 ```
 
-Покажет все фильмы, выпущенные в 1999 году.
+Zeigt alle Filme, die im Jahr 1999 erschienen sind.
 
 ---
 
-## 📈 Популярные запросы
+## 📈 Beliebte Suchanfragen
 
 ```
 popular
 ```
 
-Покажет таблицу популярных запросов: тип, текст запроса, количество запросов.
+Zeigt eine Tabelle der beliebtesten Suchanfragen: Typ, Suchtext, Anzahl der Anfragen.
 
 ---
 
-## 📄 Навигация по результатам
+## 📄 Navigation in den Ergebnissen
 
-### При просмотре фильмов или актёров:
+### Beim Durchblättern von Filmen oder Schauspielern:
 
-- `n` — следующая страница
-- `p` — предыдущая страница
-- `q` — выход из списка (для фильмов), отмена выбора (для актёров)
-- `<номер>` — выбрать нужного актёра
+- `n` — nächste Seite
+- `p` — vorherige Seite
+- `q` — Liste verlassen (für Filme), Auswahl abbrechen (für Schauspieler)
+- `<Nummer>` — gewünschten Schauspieler auswählen
 
 ---
 
-## ❌ Выход из программы
+## ❌ Programm beenden
 
-Чтобы завершить работу, введите:
+Zum Beenden des Programms geben Sie ein:
 
 ```
 q
@@ -149,29 +149,28 @@ q
 
 ---
 
-## ⚠️ Возможные ошибки
+## ⚠️ Mögliche Fehler
 
-- ❗ Пустая команда
-- ❗ Неверный формат команды
-- ❗ Некорректные данные (например, текст вместо числа)
-- ❗ Ничего не найдено
+- ❗ Leerer Befehl
+- ❗ Ungültiges Befehlsformat
+- ❗ Ungültige Eingabedaten (z. B. Text statt Zahl)
+- ❗ Keine Ergebnisse gefunden
 
-Ошибки выводятся цветным сообщением с пояснением.
+Fehlermeldungen werden farbig mit Erläuterung angezeigt.
 
 ---
 
-## 🧩 Установка программы
+## 🧩 Installation des Programms
 
-1. установить пакеты из requirements.txt
+1. Installieren Sie die Pakete aus `requirements.txt`:
 
 ```
 pip install -r requirements.txt
 ```
 
-2. создать файл db/local_settings.py.
-Содержимое файла:
+2. Erstellen Sie die Datei `db/local_settings.py` mit folgendem Inhalt:
 
-```js
+```python
 dbconfig = {'host': 'host_name',
             'user': 'user_name',
             'port': '3306',
